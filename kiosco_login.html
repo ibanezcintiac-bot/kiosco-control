@@ -48,23 +48,6 @@
             border-radius: 12px;
             padding: 40px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            display: none;
-        }
-
-        .login-box.active {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .login-box h2 {
@@ -79,6 +62,45 @@
             margin-bottom: 25px;
         }
 
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #ecf0f1;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 15px;
+            background: none;
+            border: none;
+            color: #7f8c8d;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -88,7 +110,6 @@
             color: #2c3e50;
             font-weight: 600;
             margin-bottom: 8px;
-            font-size: 0.95em;
         }
 
         .form-group input {
@@ -98,7 +119,6 @@
             border-radius: 6px;
             font-size: 1em;
             font-family: inherit;
-            transition: border-color 0.3s ease;
         }
 
         .form-group input:focus {
@@ -110,63 +130,26 @@
         .btn {
             width: 100%;
             padding: 12px;
-            border: none;
             background: #667eea;
             color: white;
+            border: none;
             border-radius: 6px;
-            font-size: 1em;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
             margin-top: 10px;
+            transition: all 0.3s ease;
         }
 
         .btn:hover {
             background: #5568d3;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn:disabled {
-            background: #bdc3c7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #ecf0f1;
-        }
-
-        .tab-btn {
-            padding: 12px 20px;
-            background: none;
-            border: none;
-            color: #7f8c8d;
-            font-weight: 600;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-            font-size: 0.95em;
-        }
-
-        .tab-btn.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-        }
-
-        .tab-btn:hover {
-            color: #667eea;
         }
 
         .alert {
             padding: 12px;
             border-radius: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 0.9em;
-            animation: slideIn 0.3s ease;
         }
 
         .alert-error {
@@ -181,44 +164,10 @@
             border: 1px solid #c3e6cb;
         }
 
-        .alert-info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .loading.active {
-            display: block;
-        }
-
-        .spinner {
-            border: 4px solid #ecf0f1;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         .form-footer {
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid #ecf0f1;
-        }
-
-        .form-footer p {
             text-align: center;
             color: #7f8c8d;
             font-size: 0.85em;
@@ -241,13 +190,12 @@
             }
 
             .tabs {
-                flex-direction: column;
                 gap: 5px;
             }
 
             .tab-btn {
-                padding: 10px 15px;
-                font-size: 0.9em;
+                padding: 10px 12px;
+                font-size: 0.8em;
             }
         }
     </style>
@@ -260,83 +208,65 @@
             <p>Sistema de Gestión para Kioscos</p>
         </div>
 
-        <div class="login-box active" id="login-container">
+        <div class="login-box">
             <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('cintia')">👑 Cintia</button>
-                <button class="tab-btn" onclick="switchTab('dueño')">🏪 Dueño</button>
-                <button class="tab-btn" onclick="switchTab('vendedora')">👩‍💼 Vendedora</button>
+                <button class="tab-btn active" onclick="switchTab(event, 'vendedora')">👩‍💼 Vendedora</button>
+                <button class="tab-btn" onclick="switchTab(event, 'dueño')">🏪 Dueño</button>
+                <button class="tab-btn" onclick="switchTab(event, 'cintia')">👑 Cintia</button>
             </div>
 
-            <!-- TAB: CINTIA (Super Admin) -->
-            <div id="tab-cintia" class="tab-content active">
-                <h2>Panel Super Admin</h2>
-                <p>Acceso exclusivo para Cintia</p>
-                <div id="alert-cintia"></div>
-
-                <form id="form-cintia" onsubmit="loginCintia(event)">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="cintia-email" placeholder="cintia@solucionesic.com" value="cintia@solucionesic.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Contraseña</label>
-                        <input type="password" id="cintia-password" placeholder="••••••••" value="test123" required>
-                    </div>
-
-                    <button type="submit" class="btn" id="btn-cintia">Ingresar</button>
-                </form>
-            </div>
-
-            <!-- TAB: DUEÑO -->
-            <div id="tab-dueño" class="tab-content" style="display: none;">
-                <h2>Panel Dueño</h2>
-                <p>Gestión de tu kiosco</p>
-                <div id="alert-dueño"></div>
-
-                <form id="form-dueño" onsubmit="loginDueño(event)">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="dueño-email" placeholder="roberto@maxikiosco.com" value="roberto@maxikiosco.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Contraseña</label>
-                        <input type="password" id="dueño-password" placeholder="••••••••" value="test123" required>
-                    </div>
-
-                    <button type="submit" class="btn" id="btn-dueño">Ingresar</button>
-                </form>
-            </div>
-
-            <!-- TAB: VENDEDORA -->
-            <div id="tab-vendedora" class="tab-content" style="display: none;">
+            <div id="vendedora" class="tab-content active">
                 <h2>Registro de Vendedora</h2>
                 <p>Ingresa tus datos para comenzar</p>
                 <div id="alert-vendedora"></div>
-
-                <form id="form-vendedora" onsubmit="loginVendedora(event)">
+                <form onsubmit="loginVendedora(event)">
                     <div class="form-group">
                         <label>Teléfono</label>
                         <input type="tel" id="vendedora-tel" placeholder="3411234567" value="3411234567" required>
                     </div>
-
                     <div class="form-group">
                         <label>PIN (4 dígitos)</label>
-                        <input type="password" id="vendedora-pin" placeholder="••••" maxlength="4" inputmode="numeric" value="1234" required>
+                        <input type="password" id="vendedora-pin" placeholder="••••" maxlength="4" value="1234" required>
                     </div>
-
-                    <button type="submit" class="btn" id="btn-vendedora">Ingresar</button>
+                    <button type="submit" class="btn">Ingresar</button>
                 </form>
-
                 <div class="form-footer">
                     <p>👉 Pregunta tu PIN al dueño si no lo tienes</p>
                 </div>
             </div>
 
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>Verificando datos...</p>
+            <div id="dueño" class="tab-content">
+                <h2>Panel Dueño</h2>
+                <p>Gestión de tu kiosco</p>
+                <div id="alert-dueño"></div>
+                <form onsubmit="loginDueño(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="dueño-email" placeholder="tu@email.com" value="roberto@maxikiosco.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="dueño-password" placeholder="••••••••" value="test123" required>
+                    </div>
+                    <button type="submit" class="btn">Ingresar</button>
+                </form>
+            </div>
+
+            <div id="cintia" class="tab-content">
+                <h2>Panel Super Admin</h2>
+                <p>Acceso exclusivo para Cintia</p>
+                <div id="alert-cintia"></div>
+                <form onsubmit="loginCintia(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="cintia-email" placeholder="cintia@solucionesic.com" value="cintia@solucionesic.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="cintia-password" placeholder="••••••••" value="test123" required>
+                    </div>
+                    <button type="submit" class="btn">Ingresar</button>
+                </form>
             </div>
         </div>
 
@@ -346,237 +276,85 @@
     </div>
 
     <script>
-        // CONFIG - SUPABASE
-        const SUPABASE_URL = 'https://hd1xdajrbxmulzdgudu.supabase.co/rest/v1';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkaXhkYWpyYnhtdWx6ZGd1ZGZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2OTAzOTAsImV4cCI6MjA5ODI2NjM5MH0.GA5aGebX2fX_evHINng8TCzwlpdwMB1YqvX3tEefjU4';
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(el => {
-                el.style.display = 'none';
-            });
-
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            document.getElementById('tab-' + tab).style.display = 'block';
-            event.target.classList.add('active');
-
-            document.getElementById('alert-cintia').innerHTML = '';
-            document.getElementById('alert-dueño').innerHTML = '';
-            document.getElementById('alert-vendedora').innerHTML = '';
-        }
-
-        function showAlert(containerId, message, type) {
-            const alertDiv = document.getElementById(containerId);
-            alertDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
-        }
-
-        function showLoading(show) {
-            document.getElementById('loading').classList.toggle('active', show);
-        }
-
-        // LOGIN CINTIA
-        async function loginCintia(e) {
-            e.preventDefault();
-            const email = document.getElementById('cintia-email').value;
-            const password = document.getElementById('cintia-password').value;
-
-            showLoading(true);
-
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/usuarios?email=eq.${encodeURIComponent(email)}&rol=eq.super_admin&select=*`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        },
-                        mode: 'cors'
-                    }
-                );
-
-                const usuarios = await response.json();
-
-                if (!usuarios || usuarios.length === 0) {
-                    showAlert('alert-cintia', '❌ Email o contraseña incorrectos', 'error');
-                    showLoading(false);
-                    return;
-                }
-
-                const usuario = usuarios[0];
-
-                if (usuario.estado !== 'activo') {
-                    showAlert('alert-cintia', '❌ Tu cuenta está inactiva', 'error');
-                    showLoading(false);
-                    return;
-                }
-
-                sessionStorage.setItem('kiosco_user', JSON.stringify({
-                    id: usuario.id,
-                    nombre: usuario.nombre,
-                    rol: usuario.rol,
-                    email: email
-                }));
-
-                showAlert('alert-cintia', '✅ Acceso concedido. Redirigiendo...', 'success');
-                setTimeout(() => {
-                    window.location.href = '/kiosco-control/dashboard-admin.html';
-                }, 1500);
-
-            } catch (error) {
-                showAlert('alert-cintia', '❌ Error: ' + error.message, 'error');
-                showLoading(false);
+        const usuarios = {
+            vendedoras: [
+                { nombre: 'Mariana', telefono: '3411234567', pin: '1234', cliente_id: 'maxi-kiosco', estado: 'activo' },
+                { nombre: 'Valeria', telefono: '3415678901', pin: '5678', cliente_id: 'maxi-kiosco', estado: 'activo' },
+                { nombre: 'Paula', telefono: '3419876543', pin: '9012', cliente_id: 'maxi-kiosco', estado: 'activo' },
+                { nombre: 'Sofía', telefono: '3412345678', pin: '3456', cliente_id: 'kiosco-paz', estado: 'activo' }
+            ],
+            dueños: [
+                { nombre: 'Roberto García', email: 'roberto@maxikiosco.com', password: 'test123', cliente_id: 'maxi-kiosco', estado: 'activo' },
+                { nombre: 'María López', email: 'maria@kiosclopaz.com', password: 'test123', cliente_id: 'kiosco-paz', estado: 'activo' }
+            ],
+            admins: [
+                { nombre: 'Cintia Ibañez', email: 'cintia@solucionesic.com', password: 'test123', estado: 'activo' }
+            ],
+            clientes: {
+                'maxi-kiosco': { nombre: 'Maxi Kiosco', estado: 'activo' },
+                'kiosco-paz': { nombre: 'Kiosco La Paz', estado: 'activo' }
             }
+        };
+
+        function switchTab(e, tab) {
+            e.preventDefault();
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            e.target.classList.add('active');
         }
 
-        // LOGIN DUEÑO
-        async function loginDueño(e) {
+        function showAlert(id, msg, type) {
+            document.getElementById(id).innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+        }
+
+        function loginVendedora(e) {
+            e.preventDefault();
+            const tel = document.getElementById('vendedora-tel').value;
+            const pin = document.getElementById('vendedora-pin').value;
+            const user = usuarios.vendedoras.find(u => u.telefono === tel && u.pin === pin);
+
+            if (!user) {
+                showAlert('alert-vendedora', '❌ Teléfono o PIN incorrecto', 'error');
+                return;
+            }
+
+            sessionStorage.setItem('kiosco_user', JSON.stringify({nombre: user.nombre, rol: 'vendedora', cliente_id: user.cliente_id}));
+            showAlert('alert-vendedora', '✅ Acceso concedido. Redirigiendo...', 'success');
+            setTimeout(() => { window.location.href = 'dashboard_vendedora.html'; }, 1500);
+        }
+
+        function loginDueño(e) {
             e.preventDefault();
             const email = document.getElementById('dueño-email').value;
             const password = document.getElementById('dueño-password').value;
+            const user = usuarios.dueños.find(u => u.email === email && u.password === password);
 
-            showLoading(true);
-
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/usuarios?email=eq.${encodeURIComponent(email)}&rol=eq.dueño&select=*,clientes(*)`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        },
-                        mode: 'cors'
-                    }
-                );
-
-                const usuarios = await response.json();
-
-                if (!usuarios || usuarios.length === 0) {
-                    showAlert('alert-dueño', '❌ Email o contraseña incorrectos', 'error');
-                    showLoading(false);
-                    return;
-                }
-
-                const usuario = usuarios[0];
-
-                if (usuario.estado !== 'activo') {
-                    showAlert('alert-dueño', '❌ Tu cuenta está inactiva', 'error');
-                    showLoading(false);
-                    return;
-                }
-
-                const cliente = usuario.clientes;
-                if (cliente && cliente.estado !== 'activo') {
-                    showAlert('alert-dueño', '⚠️ Tu suscripción ha vencido. Contacta a Soluciones IC', 'error');
-                    showLoading(false);
-                    return;
-                }
-
-                sessionStorage.setItem('kiosco_user', JSON.stringify({
-                    id: usuario.id,
-                    nombre: usuario.nombre,
-                    rol: usuario.rol,
-                    email: email,
-                    cliente_id: usuario.cliente_id
-                }));
-
-                showAlert('alert-dueño', '✅ Acceso concedido. Redirigiendo...', 'success');
-                setTimeout(() => {
-                    window.location.href = '/kiosco-control/dashboard-dueño.html';
-                }, 1500);
-
-            } catch (error) {
-                showAlert('alert-dueño', '❌ Error: ' + error.message, 'error');
-                showLoading(false);
+            if (!user) {
+                showAlert('alert-dueño', '❌ Email o contraseña incorrectos', 'error');
+                return;
             }
+
+            sessionStorage.setItem('kiosco_user', JSON.stringify({nombre: user.nombre, rol: 'dueño', cliente_id: user.cliente_id}));
+            showAlert('alert-dueño', '✅ Acceso concedido. Redirigiendo...', 'success');
+            setTimeout(() => { window.location.href = 'dashboard_dueño.html'; }, 1500);
         }
 
-        // LOGIN VENDEDORA
-        async function loginVendedora(e) {
+        function loginCintia(e) {
             e.preventDefault();
-            const telefono = document.getElementById('vendedora-tel').value;
-            const pin = document.getElementById('vendedora-pin').value;
+            const email = document.getElementById('cintia-email').value;
+            const password = document.getElementById('cintia-password').value;
+            const user = usuarios.admins.find(u => u.email === email && u.password === password);
 
-            showLoading(true);
-
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/usuarios?telefono=eq.${encodeURIComponent(telefono)}&rol=eq.vendedora&select=*,clientes(estado)`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        },
-                        mode: 'cors'
-                    }
-                );
-
-                const usuarios = await response.json();
-
-                if (!usuarios || usuarios.length === 0) {
-                    showAlert('alert-vendedora', '❌ Teléfono no encontrado', 'error');
-                    showLoading(false);
-                    return;
-                }
-
-                const usuario = usuarios[0];
-
-                if (usuario.pin !== pin) {
-                    showAlert('alert-vendedora', '❌ PIN incorrecto', 'error');
-                    showLoading(false);
-                    return;
-                }
-
-                if (usuario.estado !== 'activo') {
-                    showAlert('alert-vendedora', '❌ Tu cuenta está inactiva', 'error');
-                    showLoading(false);
-                    return;
-                }
-
-                const cliente = usuario.clientes;
-                if (cliente && cliente.estado !== 'activo') {
-                    showAlert('alert-vendedora', '⚠️ El kiosco no puede operar en este momento', 'error');
-                    showLoading(false);
-                    return;
-                }
-
-                sessionStorage.setItem('kiosco_user', JSON.stringify({
-                    id: usuario.id,
-                    nombre: usuario.nombre,
-                    rol: usuario.rol,
-                    telefono: telefono,
-                    cliente_id: usuario.cliente_id
-                }));
-
-                showAlert('alert-vendedora', '✅ Acceso concedido. Redirigiendo...', 'success');
-                setTimeout(() => {
-                    window.location.href = '/kiosco-control/dashboard_vendedora.html';
-                }, 1500);
-
-            } catch (error) {
-                showAlert('alert-vendedora', '❌ Error: ' + error.message, 'error');
-                showLoading(false);
+            if (!user) {
+                showAlert('alert-cintia', '❌ Email o contraseña incorrectos', 'error');
+                return;
             }
+
+            sessionStorage.setItem('kiosco_user', JSON.stringify({nombre: user.nombre, rol: 'super_admin'}));
+            showAlert('alert-cintia', '✅ Acceso concedido. Redirigiendo...', 'success');
+            setTimeout(() => { window.location.href = 'dashboard-admin.html'; }, 1500);
         }
-
-        // Verificar si ya está logueado
-        window.addEventListener('load', () => {
-            const user = sessionStorage.getItem('kiosco_user');
-            if (user) {
-                const userData = JSON.parse(user);
-                if (userData.rol === 'super_admin') {
-                    window.location.href = '/kiosco-control/dashboard-admin.html';
-                } else if (userData.rol === 'dueño') {
-                    window.location.href = '/kiosco-control/dashboard-dueño.html';
-                } else if (userData.rol === 'vendedora') {
-                    window.location.href = '/kiosco-control/dashboard_vendedora.html';
-                }
-            }
-        });
     </script>
 </body>
 </html>
