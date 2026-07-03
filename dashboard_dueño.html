@@ -15,7 +15,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f7fa;
             padding: 20px;
-            min-height: 100vh;
         }
 
         .container {
@@ -29,12 +28,6 @@
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .header h1 {
-            font-size: 1.5em;
-            margin-bottom: 5px;
         }
 
         .tabs {
@@ -53,8 +46,6 @@
             font-weight: 600;
             cursor: pointer;
             border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
         }
 
         .tab-btn.active {
@@ -68,22 +59,15 @@
             border-radius: 12px;
             padding: 25px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            animation: slideIn 0.3s ease;
         }
 
         .tab-content.active {
             display: block;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .tab-content h2 {
             color: #2c3e50;
             margin-bottom: 20px;
-            font-size: 1.3em;
         }
 
         .card {
@@ -94,16 +78,9 @@
             margin: 15px 0;
         }
 
-        .card-title {
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
         .card-content {
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
 
         .card-value {
@@ -129,13 +106,6 @@
             border: 2px solid #ecf0f1;
             border-radius: 6px;
             font-size: 1em;
-            font-family: inherit;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .btn {
@@ -148,57 +118,10 @@
             font-weight: 600;
             cursor: pointer;
             margin-top: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
         }
 
         .btn-success {
             background: #27ae60;
-        }
-
-        .btn-success:hover {
-            background: #229954;
-        }
-
-        .producto-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
-            margin: 10px 0;
-            border-left: 4px solid #667eea;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .producto-nombre {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .producto-stock {
-            font-size: 0.9em;
-            color: #7f8c8d;
-        }
-
-        .vendedora-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
-            margin: 10px 0;
-            border-left: 4px solid #27ae60;
-        }
-
-        .venta-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
-            margin: 10px 0;
-            border-left: 4px solid #f39c12;
         }
 
         .logout-btn {
@@ -211,55 +134,14 @@
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.9em;
         }
 
-        .logout-btn:hover {
-            background: #c0392b;
-        }
-
-        .alert {
+        .item {
+            background: #f8f9fa;
             padding: 12px;
             border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 0.9em;
-        }
-
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                max-width: 100%;
-            }
-
-            .header {
-                padding: 15px;
-            }
-
-            .tabs {
-                gap: 5px;
-            }
-
-            .tab-btn {
-                padding: 10px 12px;
-                font-size: 0.8em;
-            }
-
-            .logout-btn {
-                position: static;
-                width: 100%;
-                margin-top: 20px;
-            }
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
         }
     </style>
 </head>
@@ -268,18 +150,16 @@
 
     <div class="container">
         <div class="header">
-            <h1 id="nombre-dueño">🏪 Panel Dueño</h1>
+            <h1>🏪 Dueño</h1>
             <p>Gestión en tiempo real</p>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
-            <button class="tab-btn" onclick="switchTab('inventario')">📦 Inventario</button>
+            <button class="tab-btn" onclick="switchTab('ventas')">💰 Ventas</button>
             <button class="tab-btn" onclick="switchTab('vendedoras')">👩‍💼 Vendedoras</button>
-            <button class="tab-btn" onclick="switchTab('ventas')">💰 Ventas Hoy</button>
         </div>
 
-        <!-- TAB: DASHBOARD -->
         <div id="dashboard" class="tab-content active">
             <h2>📊 Dashboard</h2>
             <div class="card">
@@ -291,66 +171,50 @@
             <div class="card">
                 <div class="card-content">
                     <span>Transacciones:</span>
-                    <span class="card-value" id="total-transacciones">0</span>
+                    <span class="card-value" id="total-trans">0</span>
                 </div>
             </div>
             <div class="card">
                 <div class="card-content">
                     <span>Efectivo:</span>
-                    <span class="card-value" id="total-efectivo">$0</span>
+                    <span class="card-value" id="total-efe">$0</span>
                 </div>
             </div>
             <div class="card">
                 <div class="card-content">
                     <span>QR/Transferencia:</span>
-                    <span class="card-value" id="total-digital">$0</span>
+                    <span class="card-value" id="total-dig">$0</span>
                 </div>
             </div>
         </div>
 
-        <!-- TAB: INVENTARIO -->
-        <div id="inventario" class="tab-content">
-            <h2>📦 Inventario</h2>
-            <form onsubmit="agregarStock(event)">
-                <div class="form-group">
-                    <label>Producto</label>
-                    <select id="producto-select" required>
-                        <option value="">Selecciona un producto...</option>
-                        <option value="gaseosa">Gaseosa 2L</option>
-                        <option value="snacks">Snacks</option>
-                        <option value="cafe">Café</option>
-                        <option value="medialunas">Medialunas</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Stock a Agregar</label>
-                    <input type="number" id="stock-cantidad" min="1" required>
-                </div>
-                <button type="submit" class="btn btn-success">+ Agregar Stock</button>
-            </form>
-
-            <h3 style="margin-top: 30px; color: #2c3e50;">Productos Disponibles:</h3>
-            <div id="lista-productos"></div>
-        </div>
-
-        <!-- TAB: VENDEDORAS -->
-        <div id="vendedoras" class="tab-content">
-            <h2>👩‍💼 Vendedoras</h2>
-            <div id="lista-vendedoras"></div>
-        </div>
-
-        <!-- TAB: VENTAS -->
         <div id="ventas" class="tab-content">
             <h2>💰 Ventas de Hoy</h2>
-            <div id="lista-ventas"></div>
+            <div id="lista-ventas"><p>Cargando...</p></div>
+        </div>
+
+        <div id="vendedoras" class="tab-content">
+            <h2>👩‍💼 Vendedoras</h2>
+            <div id="lista-vendedoras"><p>Cargando...</p></div>
         </div>
     </div>
 
     <script>
-        const SUPABASE_URL = 'https://hd1xdajrbxmulzdgudu.supabase.co/rest/v1';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkaXhkYWpyYnhtdWx6ZGd1ZGZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2OTAzOTAsImV4cCI6MjA5ODI2NjM5MH0.GA5aGebX2fX_evHINng8TCzwlpdwMB1YqvX3tEefjU4';
-
         let userData = null;
+
+        async function callAPI(table, method = 'GET', data = null, query = null) {
+            try {
+                const response = await fetch('/api/proxy', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({table, method, data, query})
+                });
+                return await response.json();
+            } catch(e) {
+                console.error('Error:', e);
+                return null;
+            }
+        }
 
         window.addEventListener('load', () => {
             userData = JSON.parse(sessionStorage.getItem('kiosco_user'));
@@ -358,9 +222,8 @@
                 window.location.href = 'kiosco_login.html';
                 return;
             }
-            document.getElementById('nombre-dueño').textContent = userData.nombre;
             cargarDatos();
-            setInterval(cargarDatos, 5000); // Actualizar cada 5 segundos
+            setInterval(cargarDatos, 5000);
         });
 
         function switchTab(tab) {
@@ -371,168 +234,38 @@
         }
 
         async function cargarDatos() {
-            await cargarDashboard();
-            await cargarInventario();
-            await cargarVendedoras();
-            await cargarVentas();
-        }
+            const hoy = new Date().toISOString().split('T')[0];
+            const query = `cliente_id=eq.${userData.cliente_id}&fecha_venta=gte.${hoy}T00:00:00&select=*`;
+            const ventas = await callAPI('ventas', 'GET', null, query);
 
-        async function cargarDashboard() {
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/ventas?cliente_id=eq.${userData.cliente_id}&select=*`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                );
-
-                const ventas = await response.json();
-                const hoy = new Date().toISOString().split('T')[0];
-                const ventasHoy = ventas.filter(v => v.fecha_venta.split('T')[0] === hoy);
-
-                const total = ventasHoy.reduce((sum, v) => sum + v.subtotal, 0);
-                const efectivo = ventasHoy.filter(v => v.forma_pago === 'efectivo').reduce((sum, v) => sum + v.subtotal, 0);
-                const digital = ventasHoy.filter(v => v.forma_pago !== 'efectivo').reduce((sum, v) => sum + v.subtotal, 0);
-
-                document.getElementById('total-hoy').textContent = '$' + total.toLocaleString('es-AR');
-                document.getElementById('total-transacciones').textContent = ventasHoy.length;
-                document.getElementById('total-efectivo').textContent = '$' + efectivo.toLocaleString('es-AR');
-                document.getElementById('total-digital').textContent = '$' + digital.toLocaleString('es-AR');
-            } catch (error) {
-                console.error('Error:', error);
+            if (!ventas || ventas.error) {
+                document.getElementById('total-hoy').textContent = '$0';
+                document.getElementById('total-trans').textContent = '0';
+                return;
             }
-        }
 
-        async function cargarInventario() {
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/productos?cliente_id=eq.${userData.cliente_id}&select=*`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                );
+            const total = ventas.reduce((s, v) => s + v.subtotal, 0);
+            const efe = ventas.filter(v => v.forma_pago === 'efectivo').reduce((s, v) => s + v.subtotal, 0);
+            const dig = total - efe;
 
-                const productos = await response.json();
-                let html = '';
-                productos.forEach(p => {
-                    html += `<div class="producto-item">
-                        <div>
-                            <div class="producto-nombre">${p.nombre}</div>
-                            <div class="producto-stock">Stock: ${p.stock} | $${p.precio}</div>
-                        </div>
-                    </div>`;
-                });
-                document.getElementById('lista-productos').innerHTML = html || '<p style="text-align: center; color: #7f8c8d;">Sin productos</p>';
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
+            document.getElementById('total-hoy').textContent = '$' + total.toLocaleString('es-AR');
+            document.getElementById('total-trans').textContent = ventas.length;
+            document.getElementById('total-efe').textContent = '$' + efe.toLocaleString('es-AR');
+            document.getElementById('total-dig').textContent = '$' + dig.toLocaleString('es-AR');
 
-        async function cargarVendedoras() {
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/usuarios?cliente_id=eq.${userData.cliente_id}&rol=eq.vendedora&select=*`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                );
+            let html = '';
+            ventas.forEach(v => {
+                html += `<div class="item"><strong>${v.producto_id} x${v.cantidad}</strong><div style="font-size: 0.9em; color: #7f8c8d;">$${v.subtotal}</div></div>`;
+            });
+            document.getElementById('lista-ventas').innerHTML = html || '<p>Sin ventas</p>';
 
-                const vendedoras = await response.json();
-                let html = '';
+            const vendedoras = await callAPI('usuarios', 'GET', null, `cliente_id=eq.${userData.cliente_id}&rol=eq.vendedora&select=*`);
+            if (vendedoras && !vendedoras.error) {
+                html = '';
                 vendedoras.forEach(v => {
-                    html += `<div class="vendedora-item">
-                        <div style="font-weight: 600; color: #2c3e50;">${v.nombre}</div>
-                        <div style="font-size: 0.85em; color: #7f8c8d;">Tel: ${v.telefono}</div>
-                        <div style="font-size: 0.85em; color: #7f8c8d;">Estado: ${v.estado}</div>
-                    </div>`;
+                    html += `<div class="item"><strong>${v.nombre}</strong><div style="font-size: 0.9em;">Tel: ${v.telefono}</div></div>`;
                 });
-                document.getElementById('lista-vendedoras').innerHTML = html || '<p style="text-align: center; color: #7f8c8d;">Sin vendedoras</p>';
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        async function cargarVentas() {
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/ventas?cliente_id=eq.${userData.cliente_id}&select=*&order=fecha_venta.desc&limit=20`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                );
-
-                const ventas = await response.json();
-                const hoy = new Date().toISOString().split('T')[0];
-                const ventasHoy = ventas.filter(v => v.fecha_venta.split('T')[0] === hoy);
-
-                let html = '';
-                ventasHoy.forEach(v => {
-                    html += `<div class="venta-item">
-                        <div style="font-weight: 600;">${v.producto_id} x${v.cantidad}</div>
-                        <div style="font-size: 0.85em; color: #7f8c8d;">Forma: ${v.forma_pago}</div>
-                        <div style="font-size: 1.2em; font-weight: bold; color: #27ae60; text-align: right;">$${v.subtotal}</div>
-                    </div>`;
-                });
-                document.getElementById('lista-ventas').innerHTML = html || '<p style="text-align: center; color: #7f8c8d;">Sin ventas hoy</p>';
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        async function agregarStock(e) {
-            e.preventDefault();
-            const producto = document.getElementById('producto-select').value;
-            const cantidad = parseInt(document.getElementById('stock-cantidad').value);
-
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/productos?nombre=eq.${producto}&cliente_id=eq.${userData.cliente_id}`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                );
-
-                const productos = await response.json();
-                if (productos.length > 0) {
-                    const p = productos[0];
-                    const nuevoStock = p.stock + cantidad;
-
-                    const updateResponse = await fetch(
-                        `${SUPABASE_URL}/productos?id=eq.${p.id}`,
-                        {
-                            method: 'PATCH',
-                            headers: {
-                                'apikey': SUPABASE_KEY,
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({stock: nuevoStock})
-                        }
-                    );
-
-                    if (updateResponse.ok) {
-                        alert('✅ Stock actualizado');
-                        document.getElementById('producto-select').value = '';
-                        document.getElementById('stock-cantidad').value = '';
-                        cargarInventario();
-                    }
-                }
-            } catch (error) {
-                alert('Error: ' + error.message);
+                document.getElementById('lista-vendedoras').innerHTML = html || '<p>Sin vendedoras</p>';
             }
         }
 
