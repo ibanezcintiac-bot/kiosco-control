@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KioscoControl - Vendedora</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .menu-principal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .menu-btn {
+            padding: 20px;
+            background: white;
+            border: 2px solid #ecf0f1;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .menu-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .menu-btn span {
+            display: block;
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        .screen {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .screen h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ecf0f1;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .btn-success {
+            background: #27ae60;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border: 1px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .card-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .back-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+        }
+
+        .back-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        .venta-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .venta-producto {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .venta-detalles {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .venta-precio {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #27ae60;
+            text-align: right;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.2em;
+            }
+
+            .menu-principal {
+                grid-template-columns: 1fr;
+            }
+
+            .logout-btn {
+                position: static;
+                width: 100%;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="logout-btn" onclick="logout()">Salir</button>
+
+    <div class="container">
+        <!-- MENU PRINCIPAL -->
+        <div id="screen-menu" class="screen active">
+            <div class="header">
+                <h1 id="nombre-vendedora">Vendedora</h1>
+                <p id="turno-actual">👋 Bienvenida</p>
+            </div>
+
+            <div class="menu-principal">
+                <button class="menu-btn" onclick="showScreen('inicio-turno')">
+                    <span>🕐</span>
+                    Inicio de Turno
+                </button>
+                <button class="menu-btn" onclick="showScreen('registrar-venta')">
+                    <span>💰</span>
+                    Registrar Venta
+                </button>
+                <button class="menu-btn" onclick="showScreen('cierre-turno')">
+                    <span>✅</span>
+                    Cierre de Turno
+                </button>
+                <button class="menu-btn" onclick="showScreen('mis-ventas')">
+                    <span>📊</span>
+                    Mis Ventas
+                </button>
+            </div>
+        </div>
+
+        <!-- PANTALLA: INICIO DE TURNO -->
+        <div id="screen-inicio-turno" class="screen">
+            <button class="btn back-btn" onclick="showScreen('menu')">← Volver</button>
+            <h2>🕐 Inicio de Turno</h2>
+
+            <form onsubmit="iniciarTurno(event)">
+                <div class="form-group">
+                    <label>¿Cuál es tu fondo inicial?</label>
+                    <input type="number" id="fondo-inicial" placeholder="Ej: 500" step="0.01" required>
+                </div>
+                <button type="submit" class="btn btn-success">✓ Confirmar Inicio</button>
+            </form>
+        </div>
+
+        <!-- PANTALLA: REGISTRAR VENTA -->
+        <div id="screen-registrar-venta" class="screen">
+            <button class="btn back-btn" onclick="showScreen('menu')">← Volver</button>
+            <h2>💰 Registrar Venta</h2>
+
+            <div id="alert-venta"></div>
+
+            <form onsubmit="registrarVenta(event)">
+                <div class="form-group">
+                    <label>Producto</label>
+                    <select id="producto-select" required onchange="actualizarPrecio()">
+                        <option value="">Selecciona un producto...</option>
+                        <option value="gaseosa">🥤 Gaseosa 2L - $300</option>
+                        <option value="snacks">🍿 Snacks - $200</option>
+                        <option value="cafe">☕ Café - $150</option>
+                        <option value="medialunas">🍪 Medialunas - $80</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <input type="number" id="cantidad" placeholder="1" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Forma de Pago</label>
+                    <select id="forma-pago" required>
+                        <option value="">Selecciona forma de pago...</option>
+                        <option value="efectivo">💵 Efectivo</option>
+                        <option value="qr">📱 QR</option>
+                        <option value="transferencia">🏦 Transferencia</option>
+                    </select>
+                </div>
+
+                <div class="card">
+                    <div class="card-content">
+                        <span>Subtotal:</span>
+                        <span class="card-value" id="subtotal">$0</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success">✓ Registrar Venta</button>
+            </form>
+        </div>
+
+        <!-- PANTALLA: CIERRE DE TURNO -->
+        <div id="screen-cierre-turno" class="screen">
+            <button class="btn back-btn" onclick="showScreen('menu')">← Volver</button>
+            <h2>✅ Cierre de Caja</h2>
+
+            <div class="card">
+                <div class="card-content">
+                    <span>Fondo Inicial:</span>
+                    <span class="card-value" id="fondo-mostrar">$0</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <span>Total Vendido:</span>
+                    <span class="card-value" id="total-vendido-mostrar">$0</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <span>Total Esperado:</span>
+                    <span class="card-value" id="total-esperado">$0</span>
+                </div>
+            </div>
+
+            <form onsubmit="cerrarTurno(event)">
+                <div class="form-group">
+                    <label>¿Cuánto contaste?</label>
+                    <input type="number" id="total-contado" placeholder="Ingresa el total" step="0.01" required>
+                </div>
+
+                <div id="resultado-cierre"></div>
+
+                <button type="submit" class="btn btn-success">✓ Cierre OK</button>
+            </form>
+        </div>
+
+        <!-- PANTALLA: MIS VENTAS -->
+        <div id="screen-mis-ventas" class="screen">
+            <button class="btn back-btn" onclick="showScreen('menu')">← Volver</button>
+            <h2>📊 Mis Ventas Hoy</h2>
+
+            <div id="loading" style="text-align: center; padding: 20px;">
+                <p>Cargando ventas...</p>
+            </div>
+
+            <div id="lista-ventas" style="display: none;">
+                <div class="card">
+                    <div class="card-content">
+                        <span>Total Vendido:</span>
+                        <span class="card-value" id="total-ventas">$0</span>
+                    </div>
+                </div>
+                <div id="ventas-detalle"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://hd1xdajrbxmulzdgudu.supabase.co/rest/v1';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkaXhkYWpyYnhtdWx6ZGd1ZGZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2OTAzOTAsImV4cCI6MjA5ODI2NjM5MH0.GA5aGebX2fX_evHINng8TCzwlpdwMB1YqvX3tEefjU4';
+
+        let userData = null;
+        let preciosProductos = {
+            gaseosa: 300,
+            snacks: 200,
+            cafe: 150,
+            medialunas: 80
+        };
+
+        window.addEventListener('load', () => {
+            userData = JSON.parse(sessionStorage.getItem('kiosco_user'));
+            if (!userData || userData.rol !== 'vendedora') {
+                window.location.href = 'kiosco_login.html';
+                return;
+            }
+            document.getElementById('nombre-vendedora').textContent = userData.nombre;
+        });
+
+        function showScreen(screen) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            if (screen === 'menu') {
+                document.getElementById('screen-menu').classList.add('active');
+            } else {
+                document.getElementById('screen-' + screen).classList.add('active');
+                if (screen === 'mis-ventas') {
+                    cargarVentas();
+                }
+            }
+        }
+
+        function actualizarPrecio() {
+            const producto = document.getElementById('producto-select').value;
+            const cantidad = parseFloat(document.getElementById('cantidad').value) || 1;
+            if (producto) {
+                const subtotal = preciosProductos[producto] * cantidad;
+                document.getElementById('subtotal').textContent = '$' + subtotal.toLocaleString('es-AR');
+            }
+        }
+
+        async function iniciarTurno(e) {
+            e.preventDefault();
+            const fondoInicial = parseFloat(document.getElementById('fondo-inicial').value);
+            localStorage.setItem('fondo_inicial_' + userData.id, fondoInicial);
+            localStorage.setItem('turno_inicio_' + userData.id, new Date().toISOString());
+            alert('✅ Turno iniciado con $' + fondoInicial);
+            showScreen('menu');
+        }
+
+        async function registrarVenta(e) {
+            e.preventDefault();
+            const producto = document.getElementById('producto-select').value;
+            const cantidad = parseInt(document.getElementById('cantidad').value);
+            const formaPago = document.getElementById('forma-pago').value;
+            const precio = preciosProductos[producto];
+            const subtotal = precio * cantidad;
+
+            try {
+                const response = await fetch(
+                    `${SUPABASE_URL}/ventas`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            cliente_id: userData.cliente_id,
+                            vendedora_id: userData.id,
+                            producto_id: producto,
+                            cantidad: cantidad,
+                            precio_unitario: precio,
+                            subtotal: subtotal,
+                            forma_pago: formaPago,
+                            fecha_venta: new Date().toISOString()
+                        })
+                    }
+                );
+
+                if (response.ok) {
+                    document.getElementById('alert-venta').innerHTML = '<div class="alert alert-success">✅ Venta registrada en Supabase</div>';
+                    document.getElementById('producto-select').value = '';
+                    document.getElementById('cantidad').value = '';
+                    document.getElementById('forma-pago').value = '';
+                    document.getElementById('subtotal').textContent = '$0';
+                    setTimeout(() => {
+                        document.getElementById('alert-venta').innerHTML = '';
+                    }, 3000);
+                } else {
+                    document.getElementById('alert-venta').innerHTML = '<div class="alert alert-error">❌ Error al registrar</div>';
+                }
+            } catch (error) {
+                document.getElementById('alert-venta').innerHTML = '<div class="alert alert-error">❌ Error: ' + error.message + '</div>';
+            }
+        }
+
+        async function cargarVentas() {
+            try {
+                const response = await fetch(
+                    `${SUPABASE_URL}/ventas?vendedora_id=eq.${userData.id}&select=*&order=fecha_venta.desc`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                const ventas = await response.json();
+                const hoy = new Date().toISOString().split('T')[0];
+                const ventasHoy = ventas.filter(v => v.fecha_venta.split('T')[0] === hoy);
+
+                const total = ventasHoy.reduce((sum, v) => sum + v.subtotal, 0);
+
+                document.getElementById('total-ventas').textContent = '$' + total.toLocaleString('es-AR');
+                
+                let html = '';
+                ventasHoy.forEach(v => {
+                    html += `<div class="venta-item">
+                        <div class="venta-producto">${v.producto_id} x${v.cantidad}</div>
+                        <div class="venta-detalles">$${v.precio_unitario} - ${v.forma_pago}</div>
+                        <div class="venta-precio">$${v.subtotal}</div>
+                    </div>`;
+                });
+
+                document.getElementById('ventas-detalle').innerHTML = html || '<p style="text-align: center; color: #7f8c8d;">Sin ventas hoy</p>';
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('lista-ventas').style.display = 'block';
+            } catch (error) {
+                document.getElementById('loading').innerHTML = '<div class="alert alert-error">❌ Error: ' + error.message + '</div>';
+            }
+        }
+
+        function cerrarTurno(e) {
+            e.preventDefault();
+            const fondoInicial = parseFloat(localStorage.getItem('fondo_inicial_' + userData.id)) || 0;
+            const totalContado = parseFloat(document.getElementById('total-contado').value);
+            const totalVendido = 0; // Se obtendría de Supabase después
+
+            document.getElementById('fondo-mostrar').textContent = '$' + fondoInicial.toFixed(2);
+            document.getElementById('total-vendido-mostrar').textContent = '$' + totalVendido.toFixed(2);
+            document.getElementById('total-esperado').textContent = '$' + (fondoInicial + totalVendido).toFixed(2);
+
+            const diferencia = totalContado - (fondoInicial + totalVendido);
+            if (diferencia === 0) {
+                document.getElementById('resultado-cierre').innerHTML = '<div class="alert alert-success">✅ Caja cierra perfecta</div>';
+            } else {
+                document.getElementById('resultado-cierre').innerHTML = '<div class="alert alert-error">⚠️ Diferencia: $' + diferencia.toFixed(2) + '</div>';
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('kiosco_user');
+            window.location.href = 'kiosco_login.html';
+        }
+    </script>
+</body>
+</html>
