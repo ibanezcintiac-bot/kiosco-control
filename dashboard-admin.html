@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KioscoControl - Super Admin</title>
+    <title>KioscoControl - Admin</title>
     <style>
         * {
             margin: 0;
@@ -15,7 +15,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f7fa;
             padding: 20px;
-            min-height: 100vh;
         }
 
         .container {
@@ -29,12 +28,6 @@
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .header h1 {
-            font-size: 1.5em;
-            margin-bottom: 5px;
         }
 
         .tabs {
@@ -53,8 +46,6 @@
             font-weight: 600;
             cursor: pointer;
             border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
         }
 
         .tab-btn.active {
@@ -68,22 +59,15 @@
             border-radius: 12px;
             padding: 25px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            animation: slideIn 0.3s ease;
         }
 
         .tab-content.active {
             display: block;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .tab-content h2 {
             color: #2c3e50;
             margin-bottom: 20px;
-            font-size: 1.3em;
         }
 
         .card {
@@ -94,20 +78,13 @@
             margin: 15px 0;
         }
 
-        .card-title {
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
         .card-content {
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
 
         .card-value {
-            font-size: 1.3em;
+            font-size: 1.5em;
             font-weight: bold;
             color: #667eea;
         }
@@ -129,13 +106,6 @@
             border: 2px solid #ecf0f1;
             border-radius: 6px;
             font-size: 1em;
-            font-family: inherit;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .btn {
@@ -148,67 +118,10 @@
             font-weight: 600;
             cursor: pointer;
             margin-top: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
         }
 
         .btn-success {
             background: #27ae60;
-        }
-
-        .btn-success:hover {
-            background: #229954;
-        }
-
-        .cliente-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 6px;
-            margin: 10px 0;
-            border-left: 4px solid #667eea;
-        }
-
-        .cliente-nombre {
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 1.1em;
-        }
-
-        .cliente-info {
-            font-size: 0.85em;
-            color: #7f8c8d;
-            margin-top: 5px;
-        }
-
-        .cliente-estado {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            font-weight: 600;
-        }
-
-        .estado-activo {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .estado-inactivo {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .usuario-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
-            margin: 10px 0;
-            border-left: 4px solid #f39c12;
         }
 
         .logout-btn {
@@ -221,62 +134,23 @@
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.9em;
         }
 
-        .logout-btn:hover {
-            background: #c0392b;
-        }
-
-        .alert {
+        .item {
+            background: #f8f9fa;
             padding: 12px;
             border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 0.9em;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
         }
 
-        .alert-success {
+        .estado-activo {
             background: #d4edda;
             color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .btn-small {
-            padding: 8px 12px;
-            font-size: 0.85em;
-            width: auto;
-            margin-top: 0;
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                max-width: 100%;
-            }
-
-            .header {
-                padding: 15px;
-            }
-
-            .tabs {
-                gap: 5px;
-            }
-
-            .tab-btn {
-                padding: 10px 12px;
-                font-size: 0.8em;
-            }
-
-            .logout-btn {
-                position: static;
-                width: 100%;
-                margin-top: 20px;
-            }
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -285,70 +159,47 @@
 
     <div class="container">
         <div class="header">
-            <h1>👑 Panel Super Admin</h1>
+            <h1>👑 Super Admin</h1>
             <p>Gestión de KioscoControl</p>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('clientes')">🏢 Clientes</button>
             <button class="tab-btn" onclick="switchTab('usuarios')">👥 Usuarios</button>
-            <button class="tab-btn" onclick="switchTab('pagos')">💳 Pagos</button>
             <button class="tab-btn" onclick="switchTab('reportes')">📊 Reportes</button>
         </div>
 
-        <!-- TAB: CLIENTES -->
         <div id="clientes" class="tab-content active">
             <h2>🏢 Clientes</h2>
             <form onsubmit="crearCliente(event)">
                 <div class="form-group">
                     <label>Nombre del Kiosco</label>
-                    <input type="text" id="cliente-nombre" placeholder="Ej: Maxi Kiosco" required>
+                    <input type="text" id="nombre" placeholder="Maxi Kiosco" required>
                 </div>
                 <div class="form-group">
-                    <label>Nombre del Dueño</label>
-                    <input type="text" id="cliente-dueño" placeholder="Ej: Roberto García" required>
+                    <label>Dueño</label>
+                    <input type="text" id="dueño" placeholder="Roberto García" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" id="cliente-email" placeholder="correo@ejemplo.com" required>
+                    <input type="email" id="email" placeholder="correo@ejemplo.com" required>
                 </div>
                 <div class="form-group">
-                    <label>Plan (mensual)</label>
-                    <input type="number" id="cliente-plan" placeholder="5000" step="0.01" required>
+                    <label>Plan ($/mes)</label>
+                    <input type="number" id="plan" placeholder="5000" step="0.01" required>
                 </div>
                 <button type="submit" class="btn btn-success">+ Crear Cliente</button>
             </form>
 
             <h3 style="margin-top: 30px; color: #2c3e50;">Clientes Activos:</h3>
-            <div id="lista-clientes"></div>
+            <div id="lista-clientes"><p>Cargando...</p></div>
         </div>
 
-        <!-- TAB: USUARIOS -->
         <div id="usuarios" class="tab-content">
             <h2>👥 Usuarios</h2>
-            <div id="lista-usuarios"></div>
+            <div id="lista-usuarios"><p>Cargando...</p></div>
         </div>
 
-        <!-- TAB: PAGOS -->
-        <div id="pagos" class="tab-content">
-            <h2>💳 Pagos</h2>
-            <form onsubmit="marcarPago(event)">
-                <div class="form-group">
-                    <label>Cliente</label>
-                    <select id="cliente-pago" required></select>
-                </div>
-                <div class="form-group">
-                    <label>Monto Pagado</label>
-                    <input type="number" id="monto-pagado" placeholder="5000" step="0.01" required>
-                </div>
-                <button type="submit" class="btn btn-success">✓ Marcar Pago</button>
-            </form>
-
-            <h3 style="margin-top: 30px; color: #2c3e50;">Historial de Pagos:</h3>
-            <div id="historial-pagos"></div>
-        </div>
-
-        <!-- TAB: REPORTES -->
         <div id="reportes" class="tab-content">
             <h2>📊 Reportes</h2>
             <div class="card">
@@ -369,20 +220,25 @@
                     <span class="card-value" id="total-ingresos">$0</span>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-content">
-                    <span>Pagos Pendientes:</span>
-                    <span class="card-value" id="pagos-pendientes">0</span>
-                </div>
-            </div>
         </div>
     </div>
 
     <script>
-        const SUPABASE_URL = 'https://hd1xdajrbxmulzdgudu.supabase.co/rest/v1';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkaXhkYWpyYnhtdWx6ZGd1ZGZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2OTAzOTAsImV4cCI6MjA5ODI2NjM5MH0.GA5aGebX2fX_evHINng8TCzwlpdwMB1YqvX3tEefjU4';
-
         let userData = null;
+
+        async function callAPI(table, method = 'GET', data = null, query = null) {
+            try {
+                const response = await fetch('/api/proxy', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({table, method, data, query})
+                });
+                return await response.json();
+            } catch(e) {
+                console.error('Error:', e);
+                return null;
+            }
+        }
 
         window.addEventListener('load', () => {
             userData = JSON.parse(sessionStorage.getItem('kiosco_user'));
@@ -402,217 +258,48 @@
         }
 
         async function cargarDatos() {
-            await cargarClientes();
-            await cargarUsuarios();
-            await cargarHistorialPagos();
-            await cargarReportes();
-        }
-
-        async function cargarClientes() {
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/clientes?select=*&order=id.desc`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                );
-
-                const clientes = await response.json();
+            const clientes = await callAPI('clientes', 'GET', null, 'select=*&order=id.desc');
+            if (clientes && !clientes.error) {
                 let html = '';
                 clientes.forEach(c => {
-                    const estado = c.estado === 'activo' ? 'estado-activo' : 'estado-inactivo';
-                    html += `<div class="cliente-item">
-                        <div class="cliente-nombre">${c.nombre}</div>
-                        <div class="cliente-info">Dueño: ${c.nombre_dueño}</div>
-                        <div class="cliente-info">Email: ${c.email_dueño}</div>
-                        <div class="cliente-info">Plan: $${c.monto_plan}/mes</div>
-                        <div class="cliente-info">Próximo pago: ${new Date(c.fecha_proximo_pago).toLocaleDateString('es-AR')}</div>
-                        <span class="cliente-estado ${estado}">${c.estado.toUpperCase()}</span>
-                    </div>`;
+                    html += `<div class="item"><strong>${c.nombre}</strong><div style="font-size: 0.9em; color: #7f8c8d;">${c.nombre_dueño} | $${c.monto_plan}/mes</div><span class="estado-activo">${c.estado}</span></div>`;
                 });
-                document.getElementById('lista-clientes').innerHTML = html || '<p style="text-align: center; color: #7f8c8d;">Sin clientes</p>';
-
-                // Llenar select de clientes
-                let selectHtml = '<option value="">Selecciona un cliente...</option>';
-                clientes.forEach(c => {
-                    selectHtml += `<option value="${c.id}">${c.nombre}</option>`;
-                });
-                document.getElementById('cliente-pago').innerHTML = selectHtml;
-            } catch (error) {
-                console.error('Error:', error);
+                document.getElementById('lista-clientes').innerHTML = html || '<p>Sin clientes</p>';
+                document.getElementById('total-clientes').textContent = clientes.length;
+                document.getElementById('total-ingresos').textContent = '$' + clientes.reduce((s, c) => s + c.monto_plan, 0).toLocaleString('es-AR');
             }
-        }
 
-        async function cargarUsuarios() {
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/usuarios?select=*,clientes(nombre)&order=id.desc`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                );
-
-                const usuarios = await response.json();
+            const usuarios = await callAPI('usuarios', 'GET', null, 'select=*&order=id.desc');
+            if (usuarios && !usuarios.error) {
                 let html = '';
                 usuarios.forEach(u => {
-                    const cliente = u.clientes ? u.clientes.nombre : 'N/A';
-                    html += `<div class="usuario-item">
-                        <div style="font-weight: 600;">${u.nombre}</div>
-                        <div style="font-size: 0.85em; color: #7f8c8d;">Rol: ${u.rol}</div>
-                        <div style="font-size: 0.85em; color: #7f8c8d;">Kiosco: ${cliente}</div>
-                        <div style="font-size: 0.85em; color: #7f8c8d;">Estado: ${u.estado}</div>
-                    </div>`;
+                    html += `<div class="item"><strong>${u.nombre}</strong><div style="font-size: 0.9em; color: #7f8c8d;">Rol: ${u.rol}</div></div>`;
                 });
-                document.getElementById('lista-usuarios').innerHTML = html || '<p style="text-align: center; color: #7f8c8d;">Sin usuarios</p>';
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        async function cargarHistorialPagos() {
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/historial_pagos?select=*,clientes(nombre)&order=fecha_pago.desc&limit=10`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                );
-
-                const pagos = await response.json();
-                let html = '';
-                pagos.forEach(p => {
-                    const cliente = p.clientes ? p.clientes.nombre : 'N/A';
-                    html += `<div class="card">
-                        <div style="font-weight: 600;">${cliente}</div>
-                        <div style="font-size: 0.85em; color: #7f8c8d;">${new Date(p.fecha_pago).toLocaleDateString('es-AR')}</div>
-                        <div style="font-size: 1.2em; font-weight: bold; color: #27ae60;">$${p.monto}</div>
-                    </div>`;
-                });
-                document.getElementById('historial-pagos').innerHTML = html || '<p style="text-align: center; color: #7f8c8d;">Sin pagos</p>';
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        async function cargarReportes() {
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/clientes?select=*`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                );
-
-                const clientes = await response.json();
-                const activos = clientes.filter(c => c.estado === 'activo').length;
-                const ingresos = clientes.reduce((sum, c) => sum + c.monto_plan, 0);
-                const pendientes = clientes.filter(c => new Date(c.fecha_proximo_pago) < new Date()).length;
-
-                const usuariosResponse = await fetch(
-                    `${SUPABASE_URL}/usuarios?select=*`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                );
-
-                const usuarios = await usuariosResponse.json();
-
-                document.getElementById('total-clientes').textContent = activos;
+                document.getElementById('lista-usuarios').innerHTML = html || '<p>Sin usuarios</p>';
                 document.getElementById('total-usuarios').textContent = usuarios.length;
-                document.getElementById('total-ingresos').textContent = '$' + ingresos.toLocaleString('es-AR');
-                document.getElementById('pagos-pendientes').textContent = pendientes;
-            } catch (error) {
-                console.error('Error:', error);
             }
         }
 
         async function crearCliente(e) {
             e.preventDefault();
-            const nombre = document.getElementById('cliente-nombre').value;
-            const dueño = document.getElementById('cliente-dueño').value;
-            const email = document.getElementById('cliente-email').value;
-            const plan = parseFloat(document.getElementById('cliente-plan').value);
+            const result = await callAPI('clientes', 'POST', {
+                nombre: document.getElementById('nombre').value,
+                nombre_dueño: document.getElementById('dueño').value,
+                email_dueño: document.getElementById('email').value,
+                monto_plan: parseFloat(document.getElementById('plan').value),
+                estado: 'activo',
+                fecha_proximo_pago: new Date(Date.now() + 30*24*60*60*1000).toISOString()
+            });
 
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/clientes`,
-                    {
-                        method: 'POST',
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            nombre: nombre,
-                            nombre_dueño: dueño,
-                            email_dueño: email,
-                            monto_plan: plan,
-                            estado: 'activo',
-                            fecha_proximo_pago: new Date(Date.now() + 30*24*60*60*1000).toISOString()
-                        })
-                    }
-                );
-
-                if (response.ok) {
-                    alert('✅ Cliente creado');
-                    document.getElementById('cliente-nombre').value = '';
-                    document.getElementById('cliente-dueño').value = '';
-                    document.getElementById('cliente-email').value = '';
-                    document.getElementById('cliente-plan').value = '';
-                    cargarClientes();
-                }
-            } catch (error) {
-                alert('Error: ' + error.message);
-            }
-        }
-
-        async function marcarPago(e) {
-            e.preventDefault();
-            const clienteId = document.getElementById('cliente-pago').value;
-            const monto = parseFloat(document.getElementById('monto-pagado').value);
-
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/historial_pagos`,
-                    {
-                        method: 'POST',
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            cliente_id: clienteId,
-                            monto: monto,
-                            fecha_pago: new Date().toISOString(),
-                            metodo_pago: 'transferencia',
-                            estado: 'pagado'
-                        })
-                    }
-                );
-
-                if (response.ok) {
-                    alert('✅ Pago registrado');
-                    document.getElementById('cliente-pago').value = '';
-                    document.getElementById('monto-pagado').value = '';
-                    cargarHistorialPagos();
-                }
-            } catch (error) {
-                alert('Error: ' + error.message);
+            if (result && !result.error) {
+                alert('✅ Cliente creado');
+                document.getElementById('nombre').value = '';
+                document.getElementById('dueño').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('plan').value = '';
+                cargarDatos();
+            } else {
+                alert('❌ Error');
             }
         }
 
