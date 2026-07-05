@@ -134,9 +134,9 @@
             const tel = document.getElementById('tel-vendedora').value;
             const pin = document.getElementById('pin-vendedora').value;
 
-            const usuarios = await llamarSupabase('usuarios', 'GET', null, `telefono=eq.${tel}&pin=eq.${pin}&rol=eq.vendedora`);
+            const usuarios = await llamarSupabase('usuarios', 'GET', null, `telefono=eq.${tel}&rol=eq.vendedora`);
 
-            if (usuarios && usuarios.length > 0) {
+            if (usuarios && usuarios.length > 0 && usuarios[0].pin == pin) {
                 sessionStorage.setItem('kiosco_user', JSON.stringify({
                     id: usuarios[0].id,
                     nombre: usuarios[0].nombre,
@@ -154,9 +154,9 @@
             const email = document.getElementById('email-dueño').value;
             const pass = document.getElementById('pass-dueño').value;
 
-            const usuarios = await llamarSupabase('usuarios', 'GET', null, `email=eq.${email}&email=eq.${email}&rol=eq.dueño`);
+            const usuarios = await llamarSupabase('usuarios', 'GET', null, `email=eq.${email}&rol=eq.dueño`);
 
-            if (usuarios && usuarios.length > 0 && usuarios[0].email === email) {
+            if (usuarios && usuarios.length > 0) {
                 sessionStorage.setItem('kiosco_user', JSON.stringify({
                     id: usuarios[0].id,
                     nombre: usuarios[0].nombre,
