@@ -134,14 +134,18 @@
             const tel = document.getElementById('tel-vendedora').value;
             const pin = document.getElementById('pin-vendedora').value;
 
-            const usuarios = await llamarSupabase('usuarios', 'GET', null, `telefono=eq.${tel}&rol=eq.vendedora`);
+            // Traer TODOS los vendedoras
+            const usuarios = await llamarSupabase('usuarios', 'GET', null, 'rol=eq.vendedora');
 
-            if (usuarios && usuarios.length > 0 && usuarios[0].pin == pin) {
+            // Buscar en JavaScript
+            const usuario = usuarios.find(u => u.telefono === tel && String(u.pin) === pin);
+
+            if (usuario) {
                 sessionStorage.setItem('kiosco_user', JSON.stringify({
-                    id: usuarios[0].id,
-                    nombre: usuarios[0].nombre,
-                    rol: usuarios[0].rol,
-                    cliente_id: usuarios[0].cliente_id
+                    id: usuario.id,
+                    nombre: usuario.nombre,
+                    rol: usuario.rol,
+                    cliente_id: usuario.cliente_id
                 }));
                 window.location.href = 'dashboard_vendedora.html';
             } else {
@@ -152,16 +156,19 @@
         async function loginDueño(e) {
             e.preventDefault();
             const email = document.getElementById('email-dueño').value;
-            const pass = document.getElementById('pass-dueño').value;
 
-            const usuarios = await llamarSupabase('usuarios', 'GET', null, `email=eq.${email}&rol=eq.dueño`);
+            // Traer TODOS los dueños
+            const usuarios = await llamarSupabase('usuarios', 'GET', null, 'rol=eq.dueño');
 
-            if (usuarios && usuarios.length > 0) {
+            // Buscar en JavaScript
+            const usuario = usuarios.find(u => u.email === email);
+
+            if (usuario) {
                 sessionStorage.setItem('kiosco_user', JSON.stringify({
-                    id: usuarios[0].id,
-                    nombre: usuarios[0].nombre,
-                    rol: usuarios[0].rol,
-                    cliente_id: usuarios[0].cliente_id
+                    id: usuario.id,
+                    nombre: usuario.nombre,
+                    rol: usuario.rol,
+                    cliente_id: usuario.cliente_id
                 }));
                 window.location.href = 'dashboard_dueño.html';
             } else {
@@ -172,16 +179,19 @@
         async function loginAdmin(e) {
             e.preventDefault();
             const email = document.getElementById('email-admin').value;
-            const pass = document.getElementById('pass-admin').value;
 
-            const usuarios = await llamarSupabase('usuarios', 'GET', null, `email=eq.${email}&rol=eq.super_admin`);
+            // Traer TODOS los admins
+            const usuarios = await llamarSupabase('usuarios', 'GET', null, 'rol=eq.super_admin');
 
-            if (usuarios && usuarios.length > 0 && usuarios[0].email === email) {
+            // Buscar en JavaScript
+            const usuario = usuarios.find(u => u.email === email);
+
+            if (usuario) {
                 sessionStorage.setItem('kiosco_user', JSON.stringify({
-                    id: usuarios[0].id,
-                    nombre: usuarios[0].nombre,
-                    rol: usuarios[0].rol,
-                    cliente_id: usuarios[0].cliente_id || null
+                    id: usuario.id,
+                    nombre: usuario.nombre,
+                    rol: usuario.rol,
+                    cliente_id: usuario.cliente_id || null
                 }));
                 window.location.href = 'dashboard-admin.html';
             } else {
