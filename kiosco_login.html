@@ -12,22 +12,18 @@
         .header h1 { font-size: 2em; color: #2c3e50; margin-bottom: 10px; }
         .header p { color: #7f8c8d; font-size: 0.9em; }
         .tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 2px solid #ecf0f1; }
-        .tab-btn { padding: 12px 20px; background: none; border: none; color: #7f8c8d; font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.3s; }
+        .tab-btn { padding: 12px 20px; background: none; border: none; color: #7f8c8d; font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; }
         .tab-btn.active { color: #667eea; border-bottom-color: #667eea; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; color: #2c3e50; font-weight: 600; margin-bottom: 8px; }
         .form-group input { width: 100%; padding: 12px; border: 2px solid #ecf0f1; border-radius: 6px; font-size: 1em; }
-        .form-group input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
-        .btn { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1em; margin-top: 10px; }
+        .form-group input:focus { outline: none; border-color: #667eea; }
+        .btn { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 10px; }
         .btn:hover { background: #5568d3; }
         .alert { padding: 12px; border-radius: 6px; margin-bottom: 15px; }
-        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .loading { display: none; text-align: center; }
-        .spinner { border: 4px solid #ecf0f1; border-top: 4px solid #667eea; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .alert-error { background: #f8d7da; color: #721c24; }
     </style>
 </head>
 <body>
@@ -40,10 +36,8 @@
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('vendedora')">👩‍💼 Vendedora</button>
             <button class="tab-btn" onclick="switchTab('dueño')">🏪 Dueño</button>
-            <button class="tab-btn" onclick="switchTab('admin')">👑 Cintia</button>
         </div>
 
-        <!-- TAB: VENDEDORA -->
         <div id="vendedora" class="tab-content active">
             <h2 style="color: #2c3e50; margin-bottom: 20px;">Registro de Vendedora</h2>
             <div id="alert-vendedora"></div>
@@ -60,7 +54,6 @@
             </form>
         </div>
 
-        <!-- TAB: DUEÑO -->
         <div id="dueño" class="tab-content">
             <h2 style="color: #2c3e50; margin-bottom: 20px;">Acceso Dueño</h2>
             <div id="alert-dueño"></div>
@@ -68,27 +61,6 @@
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" id="email-dueño" placeholder="correo@ejemplo.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" id="pass-dueño" placeholder="••••••" required>
-                </div>
-                <button type="submit" class="btn">Ingresar</button>
-            </form>
-        </div>
-
-        <!-- TAB: ADMIN -->
-        <div id="admin" class="tab-content">
-            <h2 style="color: #2c3e50; margin-bottom: 20px;">Panel Super Admin</h2>
-            <div id="alert-admin"></div>
-            <form onsubmit="loginAdmin(event)">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="email-admin" placeholder="cintia@solucionesic.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <input type="password" id="pass-admin" placeholder="••••••" required>
                 </div>
                 <button type="submit" class="btn">Ingresar</button>
             </form>
@@ -99,26 +71,18 @@
         const SUPABASE_URL = 'https://hd1xdajrbxmulzdgudu.supabase.co/rest/v1';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkaXhkYWpyYnhtdWx6ZGd1ZGZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2OTAzOTAsImV4cCI6MjA5ODI2NjM5MH0.GA5aGebX2fX_evHINng8TCzwlpdwMB1YqvX3tEefjU4';
 
-        async function llamarSupabase(tabla, metodo = 'GET', datos = null, query = '') {
+        async function llamarSupabase(tabla, query = '') {
             try {
                 let url = `${SUPABASE_URL}/${tabla}`;
                 if (query) url += `?${query}`;
-                
-                const opciones = {
-                    method: metodo,
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Content-Type': 'application/json'
-                    }
-                };
-                
-                if (datos) opciones.body = JSON.stringify(datos);
-                
-                const res = await fetch(url, opciones);
+                const res = await fetch(url, {
+                    method: 'GET',
+                    headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' }
+                });
                 return await res.json();
             } catch (e) {
                 console.error('Error:', e);
-                return { error: e.message };
+                return [];
             }
         }
 
@@ -133,13 +97,8 @@
             e.preventDefault();
             const tel = document.getElementById('tel-vendedora').value;
             const pin = document.getElementById('pin-vendedora').value;
-
-            // Traer TODOS los vendedoras
-            const usuarios = await llamarSupabase('usuarios', 'GET', null, 'rol=eq.vendedora');
-
-            // Buscar en JavaScript
+            const usuarios = await llamarSupabase('usuarios', 'rol=eq.vendedora');
             const usuario = usuarios.find(u => u.telefono === tel && String(u.pin) === pin);
-
             if (usuario) {
                 sessionStorage.setItem('kiosco_user', JSON.stringify({
                     id: usuario.id,
@@ -156,13 +115,8 @@
         async function loginDueño(e) {
             e.preventDefault();
             const email = document.getElementById('email-dueño').value;
-
-            // Traer TODOS los dueños
-            const usuarios = await llamarSupabase('usuarios', 'GET', null, 'rol=eq.dueño');
-
-            // Buscar en JavaScript
+            const usuarios = await llamarSupabase('usuarios', 'rol=eq.dueño');
             const usuario = usuarios.find(u => u.email === email);
-
             if (usuario) {
                 sessionStorage.setItem('kiosco_user', JSON.stringify({
                     id: usuario.id,
@@ -172,30 +126,7 @@
                 }));
                 window.location.href = 'dashboard_dueño.html';
             } else {
-                document.getElementById('alert-dueño').innerHTML = '<div class="alert alert-error">❌ Email o contraseña incorrectos</div>';
-            }
-        }
-
-        async function loginAdmin(e) {
-            e.preventDefault();
-            const email = document.getElementById('email-admin').value;
-
-            // Traer TODOS los admins
-            const usuarios = await llamarSupabase('usuarios', 'GET', null, 'rol=eq.super_admin');
-
-            // Buscar en JavaScript
-            const usuario = usuarios.find(u => u.email === email);
-
-            if (usuario) {
-                sessionStorage.setItem('kiosco_user', JSON.stringify({
-                    id: usuario.id,
-                    nombre: usuario.nombre,
-                    rol: usuario.rol,
-                    cliente_id: usuario.cliente_id || null
-                }));
-                window.location.href = 'dashboard-admin.html';
-            } else {
-                document.getElementById('alert-admin').innerHTML = '<div class="alert alert-error">❌ Email o contraseña incorrectos</div>';
+                document.getElementById('alert-dueño').innerHTML = '<div class="alert alert-error">❌ Email incorrecto</div>';
             }
         }
     </script>
