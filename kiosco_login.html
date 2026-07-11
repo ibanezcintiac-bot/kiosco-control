@@ -60,7 +60,7 @@
             <form onsubmit="loginDueño(event)">
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" id="email-dueño" placeholder="correo@ejemplo.com" required>
+                    <input type="email" id="email-dueño" placeholder="roberto@maxikiosco.com" required>
                 </div>
                 <button type="submit" class="btn">Ingresar</button>
             </form>
@@ -114,9 +114,9 @@
 
         async function loginDueño(e) {
             e.preventDefault();
-            const email = document.getElementById('email-dueño').value;
+            const email = document.getElementById('email-dueño').value.trim().toLowerCase();
             const usuarios = await llamarSupabase('usuarios', 'rol=eq.dueño');
-            const usuario = usuarios.find(u => u.email === email);
+            const usuario = usuarios.find(u => u.email && u.email.trim().toLowerCase() === email);
             if (usuario) {
                 sessionStorage.setItem('kiosco_user', JSON.stringify({
                     id: usuario.id,
