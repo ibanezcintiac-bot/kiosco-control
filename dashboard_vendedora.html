@@ -11,16 +11,17 @@
         .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
         .header h1 { font-size: 1.5em; margin-bottom: 5px; }
         .menu-principal { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .menu-btn { padding: 20px; background: white; border: 2px solid #ecf0f1; border-radius: 12px; cursor: pointer; text-align: center; transition: all 0.3s; font-weight: 600; }
-        .menu-btn:hover { border-color: #667eea; background: #f8f9ff; transform: translateY(-2px); }
+        .menu-btn { padding: 20px; background: white; border: 2px solid #ecf0f1; border-radius: 12px; cursor: pointer; text-align: center; font-weight: 600; }
+        .menu-btn:hover { border-color: #667eea; background: #f8f9ff; }
         .menu-btn span { display: block; font-size: 2em; margin-bottom: 8px; }
-        .screen { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display: none; }
+        .screen { background: white; border-radius: 12px; padding: 25px; display: none; }
         .screen.active { display: block; }
         .form-group { margin-bottom: 18px; }
         .form-group label { display: block; color: #2c3e50; font-weight: 600; margin-bottom: 8px; }
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 2px solid #ecf0f1; border-radius: 6px; font-size: 1em; }
         .btn { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 10px; }
         .btn-success { background: #27ae60; }
+        .btn-secondary { background: #95a5a6; }
         .card { background: #f8f9fa; border: 1px solid #ecf0f1; border-radius: 8px; padding: 15px; margin: 15px 0; }
         .card-content { display: flex; justify-content: space-between; }
         .card-value { font-size: 1.5em; font-weight: bold; color: #667eea; }
@@ -40,10 +41,10 @@
                 <p>👋 Bienvenida</p>
             </div>
             <div class="menu-principal">
-                <button class="menu-btn" onclick="showScreen('inicio-turno')"><span>🕐</span>Inicio de Turno</button>
-                <button class="menu-btn" onclick="showScreen('registrar-venta')"><span>💰</span>Registrar Venta</button>
-                <button class="menu-btn" onclick="showScreen('cierre-turno')"><span>✅</span>Cierre de Turno</button>
+                <button class="menu-btn" onclick="showScreen('inicio-turno')"><span>🕐</span>Inicio</button>
+                <button class="menu-btn" onclick="showScreen('registrar-venta')"><span>💰</span>Venta</button>
                 <button class="menu-btn" onclick="showScreen('mis-ventas')"><span>📊</span>Mis Ventas</button>
+                <button class="menu-btn" onclick="showScreen('cierre-turno')"><span>✅</span>Cierre</button>
             </div>
         </div>
 
@@ -52,7 +53,7 @@
             <h2>🕐 Inicio de Turno</h2>
             <form onsubmit="iniciarTurno(event)">
                 <div class="form-group">
-                    <label>Fondo inicial</label>
+                    <label>Fondo inicial ($)</label>
                     <input type="number" id="fondo-inicial" placeholder="500" step="0.01" required>
                 </div>
                 <button type="submit" class="btn btn-success">Confirmar</button>
@@ -67,24 +68,20 @@
                 <div class="form-group">
                     <label>Producto</label>
                     <select id="producto-select" required onchange="actualizarPrecio()">
-                        <option value="">Selecciona...</option>
-                        <option value="gaseosa">Gaseosa 2L - $300</option>
-                        <option value="snacks">Snacks - $200</option>
-                        <option value="cafe">Café - $150</option>
-                        <option value="medialunas">Medialunas - $80</option>
+                        <option value="">Cargando productos...</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Cantidad</label>
-                    <input type="number" id="cantidad" placeholder="1" min="1" required onchange="actualizarPrecio()">
+                    <input type="number" id="cantidad" placeholder="1" min="1" value="1" required>
                 </div>
                 <div class="form-group">
                     <label>Forma de Pago</label>
                     <select id="forma-pago" required>
                         <option value="">Selecciona...</option>
-                        <option value="efectivo">Efectivo</option>
-                        <option value="qr">QR</option>
-                        <option value="transferencia">Transferencia</option>
+                        <option value="efectivo">💵 Efectivo</option>
+                        <option value="qr">📱 QR</option>
+                        <option value="transferencia">🏦 Transferencia</option>
                     </select>
                 </div>
                 <div class="card">
@@ -97,41 +94,32 @@
             </form>
         </div>
 
+        <div id="screen-mis-ventas" class="screen">
+            <button class="btn back-btn" onclick="showScreen('menu')">← Volver</button>
+            <h2>📊 Mis Ventas Hoy</h2>
+            <div id="lista-ventas" style="text-align: center; padding: 20px;">Cargando...</div>
+        </div>
+
         <div id="screen-cierre-turno" class="screen">
             <button class="btn back-btn" onclick="showScreen('menu')">← Volver</button>
             <h2>✅ Cierre de Caja</h2>
             <div class="card">
-                <div class="card-content">
-                    <span>Fondo Inicial:</span>
-                    <span class="card-value" id="fondo-mostrar">$0</span>
-                </div>
+                <div class="card-content"><span>Fondo Inicial:</span><span class="card-value" id="fondo-mostrar">$0</span></div>
             </div>
             <div class="card">
-                <div class="card-content">
-                    <span>Total Vendido:</span>
-                    <span class="card-value" id="total-vendido">$0</span>
-                </div>
+                <div class="card-content"><span>Total Vendido:</span><span class="card-value" id="total-vendido-mostrar">$0</span></div>
             </div>
             <div class="card">
-                <div class="card-content">
-                    <span>Total Esperado:</span>
-                    <span class="card-value" id="total-esperado">$0</span>
-                </div>
+                <div class="card-content"><span>Total Esperado:</span><span class="card-value" id="total-esperado">$0</span></div>
             </div>
             <form onsubmit="cerrarTurno(event)">
                 <div class="form-group">
-                    <label>Monto contado</label>
+                    <label>Monto contado ($)</label>
                     <input type="number" id="total-contado" placeholder="0" step="0.01" required>
                 </div>
                 <div id="resultado-cierre"></div>
                 <button type="submit" class="btn btn-success">Cierre OK</button>
             </form>
-        </div>
-
-        <div id="screen-mis-ventas" class="screen">
-            <button class="btn back-btn" onclick="showScreen('menu')">← Volver</button>
-            <h2>📊 Mis Ventas</h2>
-            <div id="lista-ventas"><p style="text-align: center;">Cargando...</p></div>
         </div>
     </div>
 
@@ -139,23 +127,16 @@
         const SUPABASE_URL = 'https://hd1xdajrbxmulzdgudu.supabase.co/rest/v1';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkaXhkYWpyYnhtdWx6ZGd1ZGZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2OTAzOTAsImV4cCI6MjA5ODI2NjM5MH0.GA5aGebX2fX_evHINng8TCzwlpdwMB1YqvX3tEefjU4';
         let userData = null;
-        const precios = {gaseosa: 300, snacks: 200, cafe: 150, medialunas: 80};
 
         async function llamarSupabase(tabla, metodo = 'GET', datos = null, query = '') {
             try {
                 let url = `${SUPABASE_URL}/${tabla}`;
                 if (query) url += `?${query}`;
-                
                 const opciones = {
                     method: metodo,
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Content-Type': 'application/json'
-                    }
+                    headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' }
                 };
-                
                 if (datos) opciones.body = JSON.stringify(datos);
-                
                 const res = await fetch(url, opciones);
                 return await res.json();
             } catch (e) {
@@ -164,14 +145,34 @@
             }
         }
 
-        window.addEventListener('load', () => {
+        window.addEventListener('load', async () => {
             userData = JSON.parse(sessionStorage.getItem('kiosco_user'));
             if (!userData || userData.rol !== 'vendedora') {
                 window.location.href = 'kiosco_login.html';
                 return;
             }
             document.getElementById('nombre-vendedora').textContent = userData.nombre;
+            await cargarProductos();
         });
+
+        async function cargarProductos() {
+            const productos = await llamarSupabase('productos', 'GET', null, `cliente_id=eq.${userData.cliente_id}`);
+            if (productos && productos.length > 0) {
+                let html = '<option value="">Selecciona un producto...</option>';
+                productos.forEach(p => {
+                    html += `<option value="${p.id}" data-precio="${p.precio}">${p.nombre} - $${p.precio}</option>`;
+                });
+                document.getElementById('producto-select').innerHTML = html;
+            }
+        }
+
+        function actualizarPrecio() {
+            const select = document.getElementById('producto-select');
+            const precio = select.options[select.selectedIndex].dataset.precio || 0;
+            const cantidad = parseFloat(document.getElementById('cantidad').value) || 1;
+            const subtotal = parseFloat(precio) * cantidad;
+            document.getElementById('subtotal').textContent = '$' + subtotal.toLocaleString('es-AR');
+        }
 
         function showScreen(screen) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -180,15 +181,7 @@
             } else {
                 document.getElementById('screen-' + screen).classList.add('active');
                 if (screen === 'mis-ventas') cargarVentas();
-            }
-        }
-
-        function actualizarPrecio() {
-            const producto = document.getElementById('producto-select').value;
-            const cantidad = parseFloat(document.getElementById('cantidad').value) || 1;
-            if (producto) {
-                const subtotal = precios[producto] * cantidad;
-                document.getElementById('subtotal').textContent = '$' + subtotal;
+                if (screen === 'cierre-turno') cargarCierre();
             }
         }
 
@@ -196,22 +189,24 @@
             e.preventDefault();
             const fondo = parseFloat(document.getElementById('fondo-inicial').value);
             localStorage.setItem('fondo_' + userData.id, fondo);
-            alert('✅ Turno iniciado');
+            alert('✅ Turno iniciado con $' + fondo);
             showScreen('menu');
         }
 
         async function registrarVenta(e) {
             e.preventDefault();
-            const producto = document.getElementById('producto-select').value;
+            const select = document.getElementById('producto-select');
+            const productoId = select.value;
+            const productoNombre = select.options[select.selectedIndex].text.split(' - ')[0];
             const cantidad = parseInt(document.getElementById('cantidad').value);
             const formaPago = document.getElementById('forma-pago').value;
-            const precio = precios[producto];
+            const precio = parseFloat(select.options[select.selectedIndex].dataset.precio);
             const subtotal = precio * cantidad;
 
             const resultado = await llamarSupabase('ventas', 'POST', {
                 cliente_id: userData.cliente_id,
                 vendedora_id: userData.id,
-                producto_id: producto,
+                producto_id: productoNombre,
                 cantidad,
                 precio_unitario: precio,
                 subtotal,
@@ -220,52 +215,61 @@
             });
 
             if (resultado && !resultado.error) {
-                document.getElementById('alert-venta').innerHTML = '<div class="alert alert-success">✅ Venta guardada en Supabase</div>';
-                document.getElementById('producto-select').value = '';
-                document.getElementById('cantidad').value = '';
-                document.getElementById('forma-pago').value = '';
+                document.getElementById('alert-venta').innerHTML = '<div class="alert alert-success">✅ Venta registrada</div>';
+                setTimeout(() => {
+                    document.getElementById('producto-select').value = '';
+                    document.getElementById('cantidad').value = '1';
+                    document.getElementById('forma-pago').value = '';
+                    document.getElementById('alert-venta').innerHTML = '';
+                }, 1500);
             } else {
-                document.getElementById('alert-venta').innerHTML = '<div class="alert alert-error">❌ Error: ' + (resultado?.error || 'Desconocido') + '</div>';
+                document.getElementById('alert-venta').innerHTML = '<div class="alert alert-error">❌ Error: ' + (resultado?.message || 'Desconocido') + '</div>';
             }
         }
 
         async function cargarVentas() {
             const hoy = new Date().toISOString().split('T')[0];
-            const query = `vendedora_id=eq.${userData.id}&fecha_venta=gte.${hoy}T00:00:00`;
-            const ventas = await llamarSupabase('ventas', 'GET', null, query);
-
-            if (!ventas || ventas.error) {
-                document.getElementById('lista-ventas').innerHTML = '<p>Sin ventas</p>';
-                return;
+            const ventas = await llamarSupabase('ventas', 'GET', null, `vendedora_id=eq.${userData.id}&fecha_venta=gte.${hoy}T00:00:00`);
+            if (ventas && ventas.length > 0) {
+                const total = ventas.reduce((s, v) => s + v.subtotal, 0);
+                let html = `<div class="card"><div class="card-content"><span>Total:</span><span class="card-value">$${total.toLocaleString('es-AR')}</span></div></div>`;
+                ventas.forEach(v => {
+                    html += `<div class="card"><div style="font-weight: 600;">${v.producto_id} x${v.cantidad}</div><div style="font-size: 0.9em; color: #7f8c8d;">$${v.subtotal.toLocaleString('es-AR')} - ${v.forma_pago}</div></div>`;
+                });
+                document.getElementById('lista-ventas').innerHTML = html;
+            } else {
+                document.getElementById('lista-ventas').innerHTML = '<p style="color: #7f8c8d;">Sin ventas hoy</p>';
             }
+        }
 
-            const total = ventas.reduce((sum, v) => sum + v.subtotal, 0);
-            let html = `<div class="card"><div class="card-content"><span>Total:</span><span class="card-value">$${total}</span></div></div>`;
-            
-            ventas.forEach(v => {
-                html += `<div class="card"><div style="font-weight: 600;">${v.producto_id} x${v.cantidad}</div><div style="font-size: 0.9em; color: #7f8c8d;">$${v.subtotal}</div></div>`;
-            });
-
-            document.getElementById('lista-ventas').innerHTML = html;
+        async function cargarCierre() {
+            const fondo = parseFloat(localStorage.getItem('fondo_' + userData.id)) || 0;
+            const hoy = new Date().toISOString().split('T')[0];
+            const ventas = await llamarSupabase('ventas', 'GET', null, `vendedora_id=eq.${userData.id}&fecha_venta=gte.${hoy}T00:00:00`);
+            const totalVendido = ventas ? ventas.reduce((s, v) => s + v.subtotal, 0) : 0;
+            document.getElementById('fondo-mostrar').textContent = '$' + fondo.toLocaleString('es-AR');
+            document.getElementById('total-vendido-mostrar').textContent = '$' + totalVendido.toLocaleString('es-AR');
+            document.getElementById('total-esperado').textContent = '$' + (fondo + totalVendido).toLocaleString('es-AR');
         }
 
         function cerrarTurno(e) {
             e.preventDefault();
             const fondo = parseFloat(localStorage.getItem('fondo_' + userData.id)) || 0;
-            const contado = parseFloat(document.getElementById('total-contado').value);
-            
-            document.getElementById('fondo-mostrar').textContent = '$' + fondo.toFixed(2);
-            document.getElementById('total-esperado').textContent = '$' + fondo.toFixed(2);
-            
-            const diferencia = contado - fondo;
-            const msg = diferencia === 0 ? 'perfecta' : 'diferencia: $' + diferencia.toFixed(2);
-            document.getElementById('resultado-cierre').innerHTML = `<div class="alert alert-${diferencia === 0 ? 'success' : 'error'}">Caja ${msg}</div>`;
+            const totalContado = parseFloat(document.getElementById('total-contado').value);
+            const diferencia = totalContado - fondo;
+            if (diferencia === 0) {
+                document.getElementById('resultado-cierre').innerHTML = '<div class="alert alert-success">✅ Caja cierra perfecta</div>';
+            } else {
+                document.getElementById('resultado-cierre').innerHTML = '<div class="alert alert-error">⚠️ Diferencia: $' + diferencia.toLocaleString('es-AR') + '</div>';
+            }
         }
 
         function logout() {
             sessionStorage.removeItem('kiosco_user');
             window.location.href = 'kiosco_login.html';
         }
+
+        document.addEventListener('change', () => actualizarPrecio());
     </script>
 </body>
 </html>
