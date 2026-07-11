@@ -4,167 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KioscoControl - Dueño</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ecf0f1;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            padding: 12px 15px;
-            background: none;
-            border: none;
-            color: #7f8c8d;
-            font-weight: 600;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-        }
-
-        .tab-btn.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-        }
-
-        .tab-content {
-            display: none;
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .tab-content h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
-
-        .card {
-            background: #f8f9fa;
-            border: 1px solid #ecf0f1;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-        }
-
-        .card-content {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .card-value {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #2c3e50;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ecf0f1;
-            border-radius: 6px;
-            font-size: 1em;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .btn-success {
-            background: #27ae60;
-        }
-
-        .logout-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 15px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
-            margin: 10px 0;
-            border-left: 4px solid #667eea;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; padding: 20px; }
+        .container { max-width: 700px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .header h1 { font-size: 1.5em; margin-bottom: 5px; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #ecf0f1; flex-wrap: wrap; }
+        .tab-btn { padding: 12px 15px; background: none; border: none; color: #7f8c8d; font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; }
+        .tab-btn.active { color: #667eea; border-bottom-color: #667eea; }
+        .tab-content { display: none; background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .tab-content.active { display: block; }
+        .tab-content h2 { color: #2c3e50; margin-bottom: 20px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; color: #2c3e50; font-weight: 600; margin-bottom: 8px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 2px solid #ecf0f1; border-radius: 6px; font-size: 1em; }
+        .btn { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        .btn-success { background: #27ae60; }
+        .card { background: #f8f9fa; border: 1px solid #ecf0f1; border-radius: 8px; padding: 15px; margin: 15px 0; }
+        .card-content { display: flex; justify-content: space-between; }
+        .card-value { font-size: 1.5em; font-weight: bold; color: #667eea; }
+        .item { background: #f8f9fa; padding: 12px; border-radius: 6px; margin: 10px 0; border-left: 4px solid #667eea; }
+        .logout-btn { position: fixed; top: 20px; right: 20px; padding: 10px 15px; background: #e74c3c; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        .alert { padding: 12px; border-radius: 6px; margin-bottom: 15px; }
+        .alert-success { background: #d4edda; color: #155724; }
+        .alert-error { background: #f8d7da; color: #721c24; }
+        .btn-small { width: auto; padding: 8px 12px; font-size: 0.85em; margin: 0; }
+        input[type="file"] { padding: 8px; }
     </style>
 </head>
 <body>
     <button class="logout-btn" onclick="logout()">Salir</button>
-
     <div class="container">
         <div class="header">
-            <h1>🏪 Dueño</h1>
+            <h1>🏪 Dueño - Dashboard</h1>
             <p>Gestión en tiempo real</p>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+            <button class="tab-btn" onclick="switchTab('productos')">📦 Productos</button>
             <button class="tab-btn" onclick="switchTab('ventas')">💰 Ventas</button>
-            <button class="tab-btn" onclick="switchTab('vendedoras')">👩‍💼 Vendedoras</button>
         </div>
 
         <div id="dashboard" class="tab-content active">
-            <h2>📊 Dashboard</h2>
+            <h2>📊 Resumen del Día</h2>
             <div class="card">
                 <div class="card-content">
-                    <span>Total Vendido Hoy:</span>
+                    <span>Total Vendido:</span>
                     <span class="card-value" id="total-hoy">$0</span>
                 </div>
             </div>
@@ -182,35 +70,65 @@
             </div>
             <div class="card">
                 <div class="card-content">
-                    <span>QR/Transferencia:</span>
+                    <span>QR/Transfer:</span>
                     <span class="card-value" id="total-dig">$0</span>
                 </div>
             </div>
         </div>
 
-        <div id="ventas" class="tab-content">
-            <h2>💰 Ventas de Hoy</h2>
-            <div id="lista-ventas"><p>Cargando...</p></div>
+        <div id="productos" class="tab-content">
+            <h2>📦 Gestionar Productos</h2>
+            <div id="alert-productos"></div>
+            
+            <div style="margin-bottom: 30px;">
+                <h3 style="color: #2c3e50; margin-bottom: 15px;">Agregar Producto Manual</h3>
+                <form onsubmit="agregarProducto(event)">
+                    <div class="form-group">
+                        <label>Nombre del Producto</label>
+                        <input type="text" id="nombre-prod" placeholder="Gaseosa 2L" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio ($)</label>
+                        <input type="number" id="precio-prod" placeholder="300" step="0.01" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">+ Agregar</button>
+                </form>
+            </div>
+
+            <div style="margin-bottom: 30px;">
+                <h3 style="color: #2c3e50; margin-bottom: 15px;">Importar desde Excel</h3>
+                <input type="file" id="file-excel" accept=".xlsx,.xls" style="padding: 8px; margin-bottom: 10px;">
+                <button class="btn btn-success" onclick="importarExcel()">📥 Importar</button>
+                <p style="font-size: 0.85em; color: #7f8c8d; margin-top: 10px;">Formato: Columna A = Nombre, Columna B = Precio</p>
+            </div>
+
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">Productos Actuales</h3>
+            <div id="lista-productos"></div>
         </div>
 
-        <div id="vendedoras" class="tab-content">
-            <h2>👩‍💼 Vendedoras</h2>
-            <div id="lista-vendedoras"><p>Cargando...</p></div>
+        <div id="ventas" class="tab-content">
+            <h2>💰 Ventas del Día</h2>
+            <div id="lista-ventas"></div>
         </div>
     </div>
 
     <script>
+        const SUPABASE_URL = 'https://hd1xdajrbxmulzdgudu.supabase.co/rest/v1';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkaXhkYWpyYnhtdWx6ZGd1ZGZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2OTAzOTAsImV4cCI6MjA5ODI2NjM5MH0.GA5aGebX2fX_evHINng8TCzwlpdwMB1YqvX3tEefjU4';
         let userData = null;
 
-        async function callAPI(table, method = 'GET', data = null, query = null) {
+        async function llamarSupabase(tabla, metodo = 'GET', datos = null, query = '') {
             try {
-                const response = await fetch('/api/proxy', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({table, method, data, query})
-                });
-                return await response.json();
-            } catch(e) {
+                let url = `${SUPABASE_URL}/${tabla}`;
+                if (query) url += `?${query}`;
+                const opciones = {
+                    method: metodo,
+                    headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' }
+                };
+                if (datos) opciones.body = JSON.stringify(datos);
+                const res = await fetch(url, opciones);
+                return await res.json();
+            } catch (e) {
                 console.error('Error:', e);
                 return null;
             }
@@ -234,39 +152,114 @@
         }
 
         async function cargarDatos() {
-            const hoy = new Date().toISOString().split('T')[0];
-            const query = `cliente_id=eq.${userData.cliente_id}&fecha_venta=gte.${hoy}T00:00:00&select=*`;
-            const ventas = await callAPI('ventas', 'GET', null, query);
+            await cargarDashboard();
+            await cargarProductos();
+            await cargarVentas();
+        }
 
-            if (!ventas || ventas.error) {
-                document.getElementById('total-hoy').textContent = '$0';
-                document.getElementById('total-trans').textContent = '0';
+        async function cargarDashboard() {
+            const hoy = new Date().toISOString().split('T')[0];
+            const ventas = await llamarSupabase('ventas', 'GET', null, `cliente_id=eq.${userData.cliente_id}&fecha_venta=gte.${hoy}T00:00:00`);
+            if (ventas && ventas.length > 0) {
+                const total = ventas.reduce((s, v) => s + v.subtotal, 0);
+                const efe = ventas.filter(v => v.forma_pago === 'efectivo').reduce((s, v) => s + v.subtotal, 0);
+                const dig = total - efe;
+                document.getElementById('total-hoy').textContent = '$' + total.toLocaleString('es-AR');
+                document.getElementById('total-trans').textContent = ventas.length;
+                document.getElementById('total-efe').textContent = '$' + efe.toLocaleString('es-AR');
+                document.getElementById('total-dig').textContent = '$' + dig.toLocaleString('es-AR');
+            }
+        }
+
+        async function cargarProductos() {
+            const productos = await llamarSupabase('productos', 'GET', null, `cliente_id=eq.${userData.cliente_id}`);
+            let html = '';
+            if (productos && productos.length > 0) {
+                productos.forEach(p => {
+                    html += `<div class="item"><div style="font-weight: 600;">${p.nombre}</div><div style="font-size: 0.9em; color: #7f8c8d;">Precio: $${p.precio}</div></div>`;
+                });
+            } else {
+                html = '<p style="color: #7f8c8d;">Sin productos. Agrega algunos para comenzar.</p>';
+            }
+            document.getElementById('lista-productos').innerHTML = html;
+        }
+
+        async function cargarVentas() {
+            const hoy = new Date().toISOString().split('T')[0];
+            const ventas = await llamarSupabase('ventas', 'GET', null, `cliente_id=eq.${userData.cliente_id}&fecha_venta=gte.${hoy}T00:00:00&order=fecha_venta.desc`);
+            let html = '';
+            if (ventas && ventas.length > 0) {
+                ventas.forEach(v => {
+                    html += `<div class="item"><div style="font-weight: 600;">${v.producto_id} x${v.cantidad}</div><div style="font-size: 0.9em; color: #7f8c8d;">Vendedora: ${v.vendedora_id || 'N/A'} | ${v.forma_pago}</div><div style="font-size: 1.2em; font-weight: bold; color: #27ae60;">$${v.subtotal.toLocaleString('es-AR')}</div></div>`;
+                });
+            } else {
+                html = '<p style="color: #7f8c8d;">Sin ventas hoy</p>';
+            }
+            document.getElementById('lista-ventas').innerHTML = html;
+        }
+
+        async function agregarProducto(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre-prod').value;
+            const precio = parseFloat(document.getElementById('precio-prod').value);
+            const resultado = await llamarSupabase('productos', 'POST', {
+                cliente_id: userData.cliente_id,
+                nombre: nombre,
+                precio: precio,
+                stock: 0,
+                stock_minimo: 0,
+                categoria: 'general',
+                activo: true
+            });
+            if (resultado && !resultado.error) {
+                document.getElementById('alert-productos').innerHTML = '<div class="alert alert-success">✅ Producto agregado</div>';
+                document.getElementById('nombre-prod').value = '';
+                document.getElementById('precio-prod').value = '';
+                setTimeout(() => {
+                    document.getElementById('alert-productos').innerHTML = '';
+                    cargarProductos();
+                }, 1500);
+            } else {
+                document.getElementById('alert-productos').innerHTML = '<div class="alert alert-error">❌ Error al agregar</div>';
+            }
+        }
+
+        async function importarExcel() {
+            const fileInput = document.getElementById('file-excel');
+            if (!fileInput.files.length) {
+                alert('Selecciona un archivo Excel');
                 return;
             }
-
-            const total = ventas.reduce((s, v) => s + v.subtotal, 0);
-            const efe = ventas.filter(v => v.forma_pago === 'efectivo').reduce((s, v) => s + v.subtotal, 0);
-            const dig = total - efe;
-
-            document.getElementById('total-hoy').textContent = '$' + total.toLocaleString('es-AR');
-            document.getElementById('total-trans').textContent = ventas.length;
-            document.getElementById('total-efe').textContent = '$' + efe.toLocaleString('es-AR');
-            document.getElementById('total-dig').textContent = '$' + dig.toLocaleString('es-AR');
-
-            let html = '';
-            ventas.forEach(v => {
-                html += `<div class="item"><strong>${v.producto_id} x${v.cantidad}</strong><div style="font-size: 0.9em; color: #7f8c8d;">$${v.subtotal}</div></div>`;
-            });
-            document.getElementById('lista-ventas').innerHTML = html || '<p>Sin ventas</p>';
-
-            const vendedoras = await callAPI('usuarios', 'GET', null, `cliente_id=eq.${userData.cliente_id}&rol=eq.vendedora&select=*`);
-            if (vendedoras && !vendedoras.error) {
-                html = '';
-                vendedoras.forEach(v => {
-                    html += `<div class="item"><strong>${v.nombre}</strong><div style="font-size: 0.9em;">Tel: ${v.telefono}</div></div>`;
-                });
-                document.getElementById('lista-vendedoras').innerHTML = html || '<p>Sin vendedoras</p>';
-            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                    for (let i = 1; i < rows.length; i++) {
+                        const [nombre, precio] = rows[i];
+                        if (nombre && precio) {
+                            await llamarSupabase('productos', 'POST', {
+                                cliente_id: userData.cliente_id,
+                                nombre: nombre.toString(),
+                                precio: parseFloat(precio),
+                                stock: 0,
+                                stock_minimo: 0,
+                                categoria: 'general',
+                                activo: true
+                            });
+                        }
+                    }
+                    alert('✅ Productos importados correctamente');
+                    fileInput.value = '';
+                    cargarProductos();
+                } catch (error) {
+                    alert('❌ Error al importar: ' + error.message);
+                }
+            };
+            reader.readAsArrayBuffer(file);
         }
 
         function logout() {
